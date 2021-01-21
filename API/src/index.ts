@@ -1,10 +1,10 @@
 import mongoose from "mongoose"
 import { app } from "./app"
 
-import { ENDPOINT_URI, ADMIN_TOKEN } from './config';
+import { PORT , MONGODB_URI} from './config';
 
-const port = process.env.PORT || 3001
-const mongoDbUri = process.env.MONGODB_URI || "mongodb+srv://root:Rb35gID3XMYOPz2k@ivr-syste-cluster.4ihwi.mongodb.net/test2"
+const port = PORT
+const mongoDbUri = MONGODB_URI
 
 const start = async () => {
   try {

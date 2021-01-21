@@ -18,7 +18,7 @@ app.use(urlencoded({ extended: false }));
 
 app.use(voiceRouter)
 app.use(welcomeRouter)
-// app.use(registerRouter)
+app.use(registerRouter)
 // app.use(inqueryRouter)
 
 initialize();
@@ -29,4 +29,4 @@ app.all("*", async (req, res) => {
 
 app.use(errorHandler)
 
-export {app}
+export { app }

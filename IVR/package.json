@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "ts-node-dev --poll src/index.ts",
+    "start": "GOOGLE_APPLICATION_CREDENTIALS=../gcloud_key.json ts-node-dev --poll src/index.ts",
     "test": "jest --watchAll --no-cache"
   },
   "jest": {
@@ -38,6 +38,7 @@
     "socket.io": "^3.0.3",
     "ts-node-dev": "^1.0.0-pre.56",
     "twilio": "^3.51.0",
+    "typed-rest-client": "^1.8.0",
     "typescript": "^3.9.7"
   },
   "devDependencies": {
