@@ -1,2 +1,5 @@
 node_modules
 /src/config.ts
+/tmp
+yarn.lock
+package-lock.json

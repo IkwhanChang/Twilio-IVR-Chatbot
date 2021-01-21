@@ -36,7 +36,7 @@ A store owner's console that manage the customers' call and analyze of it (e.g. 
 ### License
 - MIT / Carnegie Mellon University - Silicon Valley
 
-### Developers
+### Contributers
 - Ikwhan Chang
 - Manuja Gokulan
 - Wei Li
