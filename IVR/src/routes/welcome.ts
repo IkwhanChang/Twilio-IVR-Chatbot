@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express'
 import * as IVR from '../cache';
 import VoiceResponse from 'twilio/lib/twiml/VoiceResponse';
-import { addMessage } from '../util';
+import { addMessage } from '../util/util';
 
 const welcomeRouter = express.Router();
 const twiml = new VoiceResponse();
@@ -23,11 +23,11 @@ welcomeRouter.post('/welcome', (req: Request, res: Response) => {
         ]
 
         says.forEach(say => {
-            twiml.say({voice: 'alice'}, say);
+            twiml.say({voice: 'man'}, say);
             addMessage("IVRobot", say)    
         })
 
-        twiml.say({voice: 'alice'}, END_MESSAGE);
+        twiml.say({voice: 'man'}, END_MESSAGE);
 
         twiml.record({
             action: '/inquery',
@@ -48,7 +48,7 @@ welcomeRouter.post('/welcome', (req: Request, res: Response) => {
         ]
 
         says.forEach(say => {
-            twiml.say({voice: 'alice'}, say);
+            twiml.say({voice: 'man'}, say);
             addMessage("IVRobot", say)    
         })
 

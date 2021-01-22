@@ -16,7 +16,7 @@ voiceRouter.post("/voice", (req: Request, res: Response) => {
         res.type('text/xml');
         res.send(twiml.toString());
     } else {
-        twiml.say("Sorry, we can't find the store. Good Bye")
+        twiml.say({ voice: 'man' }, "Sorry, we can't find the store. Good Bye")
         res.type('text/xml');
         res.send(twiml.toString());
     }

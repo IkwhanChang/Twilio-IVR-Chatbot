@@ -14,7 +14,7 @@ class Customer implements ICustomer {
     constructor({
         name = "",
         phoneNumber = "",
-        messages
+        messages = []
     }: {
             name: string,
             phoneNumber: string,

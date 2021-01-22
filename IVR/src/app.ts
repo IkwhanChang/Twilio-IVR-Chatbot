@@ -19,7 +19,7 @@ app.use(urlencoded({ extended: false }));
 app.use(voiceRouter)
 app.use(welcomeRouter)
 app.use(registerRouter)
-// app.use(inqueryRouter)
+app.use(inqueryRouter)
 
 initialize();
 
