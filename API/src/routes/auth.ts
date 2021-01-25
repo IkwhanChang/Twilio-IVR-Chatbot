@@ -5,10 +5,9 @@ import { RequestValidationError } from '../errors/request-validation-error';
 import { Strategy as BearerStrategy } from "passport-http-bearer"
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import { SECRET } from '../config';
 const { Merchant, buildMerchant } = require("../models/merchant")
 
-
-const key = process.env.SECRET || "IVR-SECRET";
 
 const router = express.Router();
 
@@ -100,21 +99,6 @@ router.post("/signup", registerValidations, async (req: Request, res: Response) 
 			res.status(500)
 		});
 
-
-	// const { email, password, name } = req.body
-	// const promotions: any[] = [], storeHours: any[] = []
-	// const existingMerchant = await Merchant.findOne({ email })
-
-	// if (existingMerchant) {
-	// 	console.log("Email is in use")
-	// 	throw new BadRequestError('Email in use')
-	// }
-
-	// const merchant = buildMerchant({ email, password, name, promotions, storeHours })
-	// await merchant.save()
-
-	// console.log("merchant is created")
-	// res.status(201).send(merchant)
 })
 
 // @route   GET api/users/login
@@ -145,19 +129,6 @@ router.post("/login", loginValidations, async (req: Request, res: Response) => {
 			id,
 			username,
 			email,
-			storeName,
-			menuLink,
-			address1,
-			address2,
-			city,
-			state,
-			zipcode,
-			phoneNumber,
-			twilioPhoneNumber,
-			customer,
-			storeHours,
-			promotions,
-			items
 		} = existingMerchant;
 
 		const payload = {
@@ -168,9 +139,9 @@ router.post("/login", loginValidations, async (req: Request, res: Response) => {
 		// Sign Token
 		jwt.sign(
 			payload,
-			key,
+			SECRET,
 			{
-				expiresIn: 604800 // 1 Week
+				expiresIn: "14d" // 2 Week
 			},
 			(err, token) => {
 				res.json({

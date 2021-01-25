@@ -3,7 +3,7 @@ import { Loader, Dimmer } from "semantic-ui-react";
 
 const Spinner = () => (
   <Dimmer active>
-    <Loader size="huge" content={"Preparing Chat..."} />
+    <Loader size="huge" content={"Preparing Console..."} />
   </Dimmer>
 );
 

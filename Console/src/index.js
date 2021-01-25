@@ -5,7 +5,6 @@ import Login from "./components/Auth/Login";
 import Register from "./components/Auth/Register";
 import Spinner from "./Spinner";
 import registerServiceWorker from "./registerServiceWorker";
-import firebase from "./firebase";
 
 import "semantic-ui-css/semantic.min.css";
 
@@ -16,38 +15,68 @@ import {
   withRouter
 } from "react-router-dom";
 
+import axios from "axios";
 import { createStore } from "redux";
 import { Provider, connect } from "react-redux";
 import { composeWithDevTools } from "redux-devtools-extension";
+import jwt from "jsonwebtoken";
+import { setHeaders } from "./utils/ajax.js"
 import rootReducer from "./reducers";
-import { setUser, clearUser } from "./actions";
+import { setUser, getUser, login, clearUser } from "./actions";
 
 const store = createStore(rootReducer, composeWithDevTools());
 
 class Root extends React.Component {
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        // console.log(user);
-        this.props.setUser(user);
+
+    axios.defaults.baseURL = process.env.REACT_APP_ENDPOINT_URI;
+    const TOKEN_NAME = process.env.REACT_APP_TOKEN_NAME
+
+    if (localStorage[TOKEN_NAME]) {
+      const token = localStorage[TOKEN_NAME].split(" ")[1]
+      // Set auth token header auth
+      try {
+        // Decode token and get user info and exp
+
+        var decoded = jwt.verify(token, process.env.REACT_APP_SECRET);
+
+        // Set default header
+        setHeaders(token);
+
+        // Set user and isAuthenticated
+        this.props.setUser(decoded);
+
         this.props.history.push("/");
-      } else {
-        this.props.history.push("/login");
+      } catch (err) {
+        // err
+        console.log(err)
+
+        // Logout user
         this.props.clearUser();
+
+        // Redirect to login
+        this.props.history.push("/login");
       }
-    });
+
+    } else {
+      // Logout user
+      this.props.clearUser();
+
+      // Redirect to login
+      this.props.history.push("/login");
+    }
   }
 
   render() {
     return this.props.isLoading ? (
       <Spinner />
     ) : (
-      <Switch>
-        <Route exact path="/" component={App} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
-      </Switch>
-    );
+        <Switch>
+          <Route exact path="/" component={App} />
+          <Route path="/login" component={Login} />
+          <Route path="/register" component={Register} />
+        </Switch>
+      );
   }
 }
 
@@ -58,7 +87,7 @@ const mapStateFromProps = state => ({
 const RootWithAuth = withRouter(
   connect(
     mapStateFromProps,
-    { setUser, clearUser }
+    { setUser, getUser, login, clearUser }
   )(Root)
 );
 

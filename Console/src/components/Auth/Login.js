@@ -1,5 +1,4 @@
 import React from "react";
-import firebase from "../../firebase";
 import {
   Grid,
   Form,
@@ -9,7 +8,10 @@ import {
   Message,
   Icon
 } from "semantic-ui-react";
-import { Link } from "react-router-dom";
+import { Link, withRouter } from "react-router-dom";
+import { createStore } from "redux";
+import { Provider, connect } from "react-redux";
+import { login } from "../../actions";
 
 class Login extends React.Component {
   state = {
@@ -28,23 +30,26 @@ class Login extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
+
     if (this.isFormValid(this.state)) {
       this.setState({ errors: [], loading: true });
-      firebase
-        .auth()
-        .signInWithEmailAndPassword(this.state.email, this.state.password)
-        .then(signedInUser => {
-          console.log(signedInUser);
-        })
-        .catch(err => {
-          console.error(err);
-          this.setState({
-            errors: this.state.errors.concat(err),
-            loading: false
-          });
+
+      try{
+        this.props.login(this.state);
+      }catch(e){
+        console.log(e)
+        this.setState({
+          errors: this.state.errors.concat(e),
+          loading: false
         });
+      }
+      
     }
   };
+
+  componentDidUpdate = () => {
+    console.log(this.props.currentUser)
+  }
 
   isFormValid = ({ email, password }) => email && password;
 
@@ -116,4 +121,14 @@ class Login extends React.Component {
   }
 }
 
-export default Login;
+const mapStateFromProps = state => ({
+  isLoading: state.user.isLoading,
+  currentUser: state.user.currentUser
+});
+
+export default withRouter(
+  connect(
+    mapStateFromProps,
+    { login }
+  )(Login)
+);

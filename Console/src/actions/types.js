@@ -1,6 +1,9 @@
 /* User Action Types */
 export const SET_USER = "SET_USER";
+export const GET_USER = "GET_USER";
 export const CLEAR_USER = "CLEAR_USER";
+export const LOGIN = "LOGIN";
+export const LOGOUT = "LOGOUT";
 
 /* Channel Action Types */
 export const SET_CURRENT_CHANNEL = "SET_CURRENT_CHANNEL";
